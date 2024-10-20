@@ -6,6 +6,111 @@
 </head>
 <body>
 <h1>Страница для тренировки отображения запросов в БД</h1>
+<br>
+<h2> Вопрос 1. Какие авторы имеют самую высокую уровень самооценки (self_esteem)?<h2>
+{% if answer1 %}
+    {% for answer in answer1 %}
+    <ul>
+    <li>
+        Username: <span style="color: red">{{ answer.username }}</span>
+    </li>
+    </ul>
+    {% endfor %}
+{% else %}
+    <p style="color: #1c7430; margin-left: 30px">Пока нет ответа</p>
+{% endif %}
+<br>
+<h2> Вопрос 2. Какой автор имеет наибольшее количество опубликованных статей?<h2>
+{% if answer2 %}
+    <ul>
+    <li>
+        Автор: <span style="color: red">{{ answer2.username }}</span>
+    </li>
+    </ul>
+{% else %}
+    <p style="color: #1c7430; margin-left: 30px">Пока нет ответа</p>
+{% endif %}
+<br>
+<h2> Вопрос 3. Какие статьи содержат тег 'Кино' или 'Музыка'?<h2>
+{% if answer3 %}
+    {% for answer in answer3 %}
+    <ul>
+    <li>
+        Названия статей: <span style="color: red">{{ answer.text }}</span>
+    </li>
+    </ul>
+    {% endfor %}
+{% else %}
+    <p style="color: #1c7430; margin-left: 30px">Пока нет ответа</p>
+{% endif %}
+<br>
+<h2> Вопрос 4. Сколько авторов женского пола зарегистрировано в системе?<h2>
+{% if answer4 %}
+    Число авторов: <span style="color: red">{{ answer4 }}</span>
+{% else %}
+    <p style="color: #1c7430; margin-left: 30px">Пока нет ответа</p>
+{% endif %}
+<br>
+<h2> Вопрос 5. Какой процент авторов согласился с правилами при регистрации?<h2>
+{% if answer5 %}
+    Процент авторов: <span style="color: red">{{ answer5 }} %</span>
+{% else %}
+    <p style="color: #1c7430; margin-left: 30px">Пока нет ответа</p>
+{% endif %}
+<br>
+<h2> Вопрос 6. Какие авторы имеют стаж от 1 до 5 лет?<h2>
+{% if answer6 %}
+    {% for answer in answer6 %}
+    <ul>
+    <li>
+        Автор: <span style="color: red">{{ answer.username }}</span>
+    </li>
+    </ul>
+    {% endfor %}
+{% else %}
+    <p style="color: #1c7430; margin-left: 30px">Пока нет ответа</p>
+{% endif %}
+<br>
+<h2> Вопрос 7. Какой автор имеет наибольший возраст?<h2>
+{% if answer7 %}
+    Самый старый: <span style="color: red">{{ answer7.username }}</span><br>
+    Возраст автора: <span style="color: red">{{ answer7.age }}</span>
 
+{% else %}
+    <p style="color: #1c7430; margin-left: 30px">Пока нет ответа</p>
+{% endif %}
+<br>
+<h2> Вопрос 8. Сколько авторов указали свой номер телефона?<h2>
+{% if answer8 %}
+    Количество авторов: <span style="color: red">{{ answer8 }}</span>
+{% else %}
+    <p style="color: #1c7430; margin-left: 30px">Пока нет ответа</p>
+{% endif %}
+<br>
+<h2> Вопрос 9. Какие авторы имеют возраст младше 25 лет?<h2>
+{% if answer9 %}
+    {% for answer in answer9 %}
+    <ul>
+    <li>
+        Автор: <span style="color: red">{{ answer.username }}</span>
+    </li>
+    </ul>
+    {% endfor %}
+{% else %}
+    <p style="color: #1c7430; margin-left: 30px">Пока нет ответа</p>
+{% endif %}
+<br>
+<h2> Вопрос 10. Сколько статей написано каждым автором?<h2>
+{% if answer10 %}
+    {% for answer in answer10 %}
+    <ul>
+    <li>
+        Автор: <span style="color: red">{{ answer.username }}</span>; Число статей: <span style="color: red">{{ answer.count }}</span>
+    </li>
+    </ul>
+    {% endfor %}
+{% else %}
+    <p style="color: #1c7430; margin-left: 30px">Пока нет ответа</p>
+{% endif %}
 </body>
 </html>
