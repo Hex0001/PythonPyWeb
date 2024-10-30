@@ -23,6 +23,9 @@ urlpatterns = [
     path('', include('apps.app.urls')),
     path('train/', include('apps.db_train.urls')),
     path('tinymce/', include('tinymce.urls')),
+    path('api_alter/', include('apps.db_train_alternative.urls')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/', include('apps.api.urls')),
 ]
 
 if settings.DEBUG:
