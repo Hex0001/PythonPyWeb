@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'apps.db_train_alternative',
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
     'django_filters',
 ]
 

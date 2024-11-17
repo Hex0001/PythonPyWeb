@@ -1,15 +1,16 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, filters
+from rest_framework import status, filters, permissions, authentication
 from django.views.decorators.csrf import csrf_exempt  # Чтобы post, put, patch, delete не требовали csrf токена (небезопасно)
 from apps.db_train_alternative.models import Author
 from django.http import Http404
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin, CreateModelMixin, UpdateModelMixin, DestroyModelMixin
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.decorators import action
+from rest_framework.decorators import action, authentication_classes
 from rest_framework.pagination import PageNumberPagination
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import AuthorSerializer, AuthorModelSerializer
 
@@ -43,6 +44,8 @@ class AuthorViewSet(ModelViewSet):
 
 
 class AuthorAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     @csrf_exempt
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
@@ -101,10 +104,37 @@ class AuthorAPIView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class CustomPermission(permissions.BasePermission):
+    """
+    Пользователи могут выполнять различные действия в зависимости от их роли.
+    """
+
+    def has_permission(self, request, view):
+        # Разрешаем только GET запросы для неаутентифицированных пользователей
+        if request.method == 'GET' and not request.user.is_authenticated:
+            return True
+
+        # Разрешаем GET и POST запросы для аутентифицированных пользователей
+        if request.method in ['GET', 'POST'] and request.user.is_authenticated:
+            return True
+
+        # Разрешаем все действия для администраторов
+        if request.user.is_superuser:
+            return True
+
+        # Во всех остальных случаях возвращаем False
+        return False
+
+
 class AuthorGenericAPIView(GenericAPIView, RetrieveModelMixin, ListModelMixin, CreateModelMixin, UpdateModelMixin,
                            DestroyModelMixin):
     queryset = Author.objects.all()
     serializer_class = AuthorModelSerializer
+
+    # permission_classes = [CustomPermission]
+    permission_classes = [permissions.IsAuthenticated]
+    # authentication_classes = [authentication.TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
 
     def get(self, request, *args, **kwargs):
         if kwargs.get(self.lookup_field):
